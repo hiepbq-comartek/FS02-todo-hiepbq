@@ -12,3 +12,17 @@ table{
   width: 80rem;
   height: 1rem;
 }
+.button_size{
+  width: 2rem;
+  height: 2rem;
+}
+.note_block{
+  margin: 0.8rem 0.8rem 0 0.8rem;
+  height: 16.2rem;
+  width: 84rem;
+  position: relative;
+}
+.clearjob{
+  position: relative;
+  left: 53rem;
+}

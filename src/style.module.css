@@ -1,0 +1,101 @@
+#todo_block{
+    position: relative;
+    width: 88rem;
+    height: 35rem;
+    top: 4rem;
+    left: 33.8rem;
+    border: 1px solid #ccc ;
+    border-radius: 0.8rem;
+}
+#heandle_text{
+    font-size: 1.6rem;
+    width: 100%;
+    font-weight: 500;
+    margin: 0.8rem 0 0.8rem 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+#input_add{
+    width: 90%;
+    margin: 0.8rem 1.2rem;
+    font-size: 1.2rem;
+    border: 0.6rem;
+    outline: none;
+}
+#type_block{
+    display: flex;
+    margin: 0 29.6rem ;
+    font-size: 2.2rem;
+    list-style-type: none;
+}
+#type_li{
+    margin: 0 1rem 1rem 1rem;
+}
+#headle_click{
+    font-size: 1.2rem;
+    width: 18.2rem;
+    height: 1.8rem;
+    margin: 0 35.4rem;
+    border-radius: 4rem;
+    border: none;
+    /* background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet); */
+}
+#note{
+    font-size: 1.6rem;
+    margin: 0.8rem 0.8rem 0 0.8rem;
+    position: absolute;
+    z-index: 999;
+    background: #fff;
+    width: 86rem;
+    height: 2.2rem;
+
+}
+#note_block{
+    margin: 0.8rem 0.8rem 0 0.8rem;
+    height: 16.2rem;
+    width: 84rem;
+    position: relative;
+}
+#note_text{
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 100%;
+    height: 2.2rem;
+    border-radius: 0.8rem;
+    margin: 0.4rem 0;
+    display: flex;
+    background-color: #ccc;
+}
+.removeui{
+    display: block;
+}
+#icon_close{
+    font-size: 1.2rem;
+    margin: 0.4rem;
+    position: absolute;
+    right: -0.36rem;
+    color: red;
+}
+#text_note{
+    margin: 0 1.2rem;
+
+}
+.lever_block{
+    position: absolute;
+    right: 1.2rem;
+    width: 5.2rem;
+    height: 2.2rem;
+}
+.green{
+    background-color: green;
+}
+.yellow{
+    background-color: yellow;
+}
+.red{
+    background-color: red;
+}
+.displaynone{
+    display: none;
+}
