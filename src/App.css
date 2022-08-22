@@ -26,3 +26,11 @@ table{
   position: relative;
   left: 53rem;
 }
+#blockprofilde{
+  width: 24rem;
+  height: 24rem;
+  border-radius: 0.4rem;
+  background-color: #000;
+  position: absolute;
+  right: 0;
+}

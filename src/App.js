@@ -1,108 +1,235 @@
-import style from './style.module.css'
-import './App.css';
-import { useState } from 'react'
+import "./App.css";
+import { useState, useReducer, useEffect, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
+const init = {
+  job: "",
+  jobs: [],
+};
+const Set = "Set";
+const Add = "Add";
+const Deletes = "Deletes";
+
+const SetJob = (payload) => {
+  return {
+    type: Set,
+    payload,
+  };
+};
+const AddJob = (payload) => {
+  return {
+    type: Add,
+    payload,
+  };
+};
+const deleteJob = (payload) => {
+  return {
+    type: Deletes,
+    payload,
+  };
+};
 
 // data
 function App() {
+  const [ischeced, setischeck] = useState(false);
+  const [data, setData] = useState([]);
   let time = new Date();
-  let times = `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDay()}`
-  console.log(times)
-  const [date, setdate] = useState(times);
-
-  const type = 'checkbox';
-  const easy = {
-    id: 1,
-    text: 'da lam'
-  }
-  const medium = {
-    id: 2,
-    text: 'chua lam'
-  }
-  // const $$ = document.querySelectorAll.bind(document)
-  const ivalues = [easy, medium];
-  const ivalue = ivalues.map(ivalue => {
-    return ivalue.text
-  })
-  const [ischecked, setchecked] = useState(1);
-  const [isjob, setisjob] = useState();
-  const [jobs, setjob] = useState([{
-    data: '',
-    id: '',
-    text: '',
-    date: times
-  }])
-  // heandle
-  const heandleclick = () => {
-    setjob([...jobs, { data: isjob, id: ischecked, text: ivalue, date: times }]);
-    return jobs
-  };
-  const clearheandle = () => {
-    setjob([...jobs,
-    ])
-  }
-  function getAPi() {
+  let times = `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDay()}`;
+  const navigate = useNavigate();
+  // delete
+  const deletejob = (e) => {
     const option = {
-      method: 'GET',
+      method: "delete",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('token')
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(input),
+    };
+    fetch(`https://api-nodejs-todolist.herokuapp.com/task/${e} `, option)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
+  // useRedurce
+
+  const Reducer = (state, action) => {
+    let newSate;
+    switch (action.type) {
+      case Set:
+        return {
+          ...state,
+          job: action.payload,
+        };
+      case Add:
+        newSate = {
+          ...state,
+          jobs: [...state.jobs, action.payload],
+        };
+        break;
+      case Deletes:
+        const newJobss = [...state.jobs];
+        newJobss.splice(action.payload, 1);
+        newSate = {
+          ...state,
+          jobs: newJobss,
+        };
+        break;
+      default:
+        new Error("job detail");
     }
-    fetch('https://api-nodejs-todolist.herokuapp.com/user/me', option)
-      .then((response) => {
-        // regíter success -> save token, navigate....
-        return response.json();
+    return newSate;
+  };
+  // post api
+  const handleadd = (data, callback) => {
+    dispatch(AddJob(job));
+    const option = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(data),
+    };
+    fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
+      .then((response) => response.json())
+      .then((data) => data);
+  };
 
+  //
 
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+  //
+  const [state, dispatch] = useReducer(Reducer, init);
+  const { job, jobs } = state;
+  //
+
+  function handlesiginout() {
+    const option = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(),
+    };
+    // login out
+    fetch("https://api-nodejs-todolist.herokuapp.com/user/logout", option)
+      .then((response) => response.json())
+      .then((data) =>
+        data.success == "true" ? navigate("/home") : navigate("/")
+      )
+      .then(localStorage.clear());
+  }
+  console.log(job);
+  // put profile
+  function putprofile(data) {
+    const option = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(data),
+    };
+    fetch("https://api-nodejs-todolist.herokuapp.com/user/me", option)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }
+  const str = {
+    description: job,
+  };
+  //get Api
+  useEffect(() => {
+    const option = {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
+      .then((res) => res.json())
+      .then((data) => setData(data.data));
+  }, [data]);
+  // Get Task by Completed
+  useEffect(() => {
+    const option = {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(
+      "https://api-nodejs-todolist.herokuapp.com/task?completed=true",
+      option
+    )
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+    console.log(ischeced);
+  }, []);
+
+  // update
+  function update(e) {
+    const option = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(`https://api-nodejs-todolist.herokuapp.com/task/${e}`, option)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   }
 
   return (
-    <div id={style.todo_block} >
-      <span id={style.heandle_text}>To do list react basic</span>
-      <input id={style.input_add}
-        placeholder='Việc cần làm'
-        onChange={e => setisjob(e.target.value)}
-
+    <>
+      <input
+        value={job}
+        onChange={(e) => {
+          dispatch(SetJob(e.target.value));
+        }}
       />
-      <div id={style.input_block}>
-        <ul id={style.type_block}>
-          {ivalues.map((ivalue, index) => {
-            return <li key={index} id={style.type_li}>
-              <input
-                checked={ischecked === ivalue.id}
-                onChange={() => { setchecked(ivalue.id) }}
-                type={type} />{ivalue.text}
-            </li>
-          })}
-        </ul>
-        <button onClick={heandleclick} id={style.headle_click}>Xác Nhận</button>
+      <div id="blockprofilde">
+        <img src="" />
+        <span></span>
+        <button>Chỉnh sửa thông tin</button>
+        <button onClick={handlesiginout}>Đăng xuất</button>
       </div>
-      <span id={style.note}>Note :</span>
-      <ul id={style.note_block}>
-        {jobs.map((job, index) => {
-          return (
-            <li key={index} id={style.note_text}>
-              <span id={style.text_note}>{job.data}</span>
-              <div>{job.date}</div>
-              <div id='lever' className={style.lever_block}>{job.text[job.id - 1]}</div>
-              <div>
-                <button onClick={clearheandle} className='clearjob'>Xóa</button>
-              </div>
-              <ion-icon id={style.icon_close} name="close-circle-outline"></ion-icon>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
-
+      <button onClick={() => handleadd(str)}>submit</button>
+      <table className="table m-20">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">content</th>
+            <th scope="col">date</th>
+            <th scope="col">action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((datam, index) => {
+            return (
+              <tr key={index}>
+                <th scope="row">{index}</th>
+                <td>{datam.description}</td>
+                <td>{datam.updatedAt}</td>
+                <td>
+                  <button onClick={() => update(datam.id)}>Update</button>
+                  <button onClick={() => deletejob(datam._id)}>Delete</button>
+                  <input
+                    onChange={() => {
+                      setischeck(data._id);
+                    }}
+                    type="radio"
+                    checked={ischeced === data._id}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }
 
 export default App;
-
-
