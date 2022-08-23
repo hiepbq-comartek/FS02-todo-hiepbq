@@ -30,7 +30,53 @@ table{
   width: 24rem;
   height: 24rem;
   border-radius: 0.4rem;
-  background-color: #000;
   position: absolute;
   right: 0;
+  top: 0;
+}
+.mt-100{
+  position: relative;
+  top: 16rem;
+}
+#button_post{
+  border-radius: 0.4rem;
+}
+.inpt_job{
+  width: 300px;
+  margin-left: 40rem;
+  margin-bottom: 100px;
+  margin-top: 60px;
+  outline-style: none;
+  font-size: 2rem;
+}
+#butsub{
+  font-size: 2rem;
+  border: none;
+
+}
+.inpt_jobs{
+  width: 300px;
+  margin-bottom: 40px;
+  outline-style: none;
+  font-size: 2rem;
+  margin-left: 36px;
+}
+.inpt_jobss{
+  width: 300px;
+  margin-bottom: 40px;
+  outline-style: none;
+  font-size: 2rem;
+  margin-left: 10px;
+}
+.inpt_jobsss{
+  width: 300px;
+  margin-bottom: 40px;
+  outline-style: none;
+  font-size: 2rem;
+  margin-left: 45px;
+}
+#butupdat{
+  width: 15rem;
+    height: 3rem;
+    margin-left: 116px;
 }

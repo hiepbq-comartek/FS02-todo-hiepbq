@@ -20,10 +20,10 @@ function Siginup() {
       body: JSON.stringify(input),
     };
     fetch(apitodolitsnewuser, option)
-      .then((response) => {
-        // regíter success -> save token, navigate....
-        return response.json(response);
-      })
+      .then((res) => res.json())
+      .then((data) =>
+        typeof data.age == Number ? navigate("/") : navigate("/register")
+      )
 
       .catch((error) => {
         console.error("Error:", error);
