@@ -1,6 +1,7 @@
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { deleteuser, putFrofile } from "./data";
+import Imgtodolist from "./updateimg";
 const Updateprofile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -37,8 +38,7 @@ const Updateprofile = () => {
             className="inpt_jobsss"
           />
         </div>
-        <input id="test" type="file" />
-
+        <Imgtodolist />
         <button onClick={() => putFrofile(datas)} id="butupdat">
           submit
         </button>

@@ -1,31 +1,25 @@
 // get user media none
-
 const link = "https://api-nodejs-todolist.herokuapp.com";
-export let getimg = (id) => {
+// upload img oke
+export let uploadimg = (img, name) => {
+  console.log({ img, name });
+  const formData = new FormData();
+
+  formData.append("avatar", img, name);
   const option = {
-    method: "get",
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-  fetch(`${link}/user/${id}/avatar`, option)
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
-// upload img
-export let uploadimg = (data) => {
-  const option = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify(data),
+    body: formData,
+    redirect: "follow",
   };
-  fetch(`${link}/user/me/avatar`, option)
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+  fetch("https://api-nodejs-todolist.herokuapp.com/user/me/avatar", option)
+    .then((data) =>
+      data.success == true ? alert("sửa thành công") : alert("lỗi")
+    )
+    .catch((error) => console.log(error));
 };
 // putFrpfile oke
 export let putFrofile = (data) => {
@@ -45,16 +39,18 @@ export let putFrofile = (data) => {
 };
 
 // put taskbyCompleted oke
-export let PutTaskbyCompleted = (data) => {
+export let PutTaskbyCompleted = (data, id, setusecheck) => {
   const option = {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(data),
   };
-  fetch(`https://api-nodejs-todolist.herokuapp.com/task/${data}`, option)
+  fetch(`https://api-nodejs-todolist.herokuapp.com/task/${id}`, option)
     .then((res) => res.json())
+    .then((data) => setusecheck(data.completed))
     .then((data) => console.log(data));
 };
 
@@ -114,4 +110,55 @@ export let gettaskbyPa = () => {
     .then((res) => res.json())
     .then((data) => console.log(data));
 };
-//
+//get Get Task by Pagination
+export let gettaskbtpag = () => {
+  const option = {
+    method: "Get",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  fetch(
+    "https://api-nodejs-todolist.herokuapp.com/task?limit=2&skip=10",
+    option
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+};
+export let deleteimg = () => {
+  const option = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  fetch(
+    "https://api-nodejs-todolist.herokuapp.com/user/me/avatar",
+    option
+  ).then(
+    (data) => console.log(data)
+    // data.success === "true"
+    //   ? alert("ảnh chưa bị xóa")
+    //   : alert("ảnh đã xóa thành công")
+  );
+};
+export let seletecedit = () => {
+  const option = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  fetch(
+    "https://api-nodejs-todolist.herokuapp.com/task?limit=2&skip=10",
+    option
+  ).then(
+    (data) => console.log(data)
+    // data.success === "true"
+    //   ? alert("ảnh chưa bị xóa")
+    //   : alert("ảnh đã xóa thành công")
+  );
+};

@@ -36,7 +36,6 @@ table{
 }
 .mt-100{
   position: relative;
-  top: 16rem;
 }
 #button_post{
   border-radius: 0.4rem;
@@ -45,7 +44,7 @@ table{
   width: 300px;
   margin-left: 40rem;
   margin-bottom: 100px;
-  margin-top: 60px;
+  margin-top: 20rem;
   outline-style: none;
   font-size: 2rem;
 }
@@ -76,7 +75,75 @@ table{
   margin-left: 45px;
 }
 #butupdat{
-  width: 15rem;
+  width: 134px;
     height: 3rem;
     margin-left: 116px;
+}
+input#test {
+  width: 134px;
+  margin-left: 118px;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Select some files';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+#imguser{
+  width: 15rem;
+    height: 15rem;
+    position: absolute;
+    top: 2rem;
+    border-radius: 40rem;
+    left: 52rem;
+    border: 1px solid #ccc;
+}
+#hello{
+  font-size: 3.6rem;
+  position: absolute;
+}
+#email{
+  font-size: 2.4rem;
+  position: absolute;
+  top: 50px
+}
+#img_user{
+  width: 15rem;
+    height: 15rem;
+    top: 2rem;
+    border-radius: 40rem;
+    left: 52rem;
+    border: 1px solid #ccc;
+}
+#deleimg{
+  position: absolute;
+  bottom: -28px;
+  left: 50px;
+  background: none;
+  outline-style: none;
+}
+#pagination{
+  z-index: 9999;
+}
+#testli{
+  background-color: #000;
+  z-index: 9999;
 }

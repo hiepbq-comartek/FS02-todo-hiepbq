@@ -1,8 +1,10 @@
 import "./App.css";
 import { useState, useReducer, useEffect, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Updateprofile from "./update";
-import { PutTaskbyCompleted } from "./data";
+import { PutTaskbyCompleted, deleteimg } from "./data";
+import SkeletonImage from "antd/lib/skeleton/Image";
+import Pagenumber from "./pagenumber";
 
 const init = {
   job: "",
@@ -32,11 +34,23 @@ const deleteJob = (payload) => {
 
 // data
 function App() {
+  const [timg, setimg] = useState({});
+  const [usecheck, setusecheck] = useState(false);
+  const [profile, setprofile] = useState({});
   const [checkdisplay, setdisplay] = useState(false);
   const [ischeced, setischeck] = useState(false);
   const [data, setData] = useState([]);
-  let time = new Date();
-  let times = `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDay()}`;
+  //page
+  const [post, setpost] = useState();
+  const [loading, setloading] = useState(false);
+  const [currenpage, setcurrenpage] = useState(1);
+  const [compage, setcompage] = useState(10);
+  //
+  const indexcurrenfrom = currenpage * compage;
+  const firsepage = indexcurrenfrom - compage;
+  const pageforms = data.splice(firsepage, indexcurrenfrom);
+
+  //
   const navigate = useNavigate();
   // delete
   const deletejob = (e) => {
@@ -151,11 +165,49 @@ function App() {
       .then((res) => res.json())
       .then((data) => setData(data.data));
   }, [data]);
+  const sr = {
+    completed: true,
+  };
+
   useEffect(() => {
-    PutTaskbyCompleted(ischeced);
+    PutTaskbyCompleted(sr, ischeced, setusecheck);
   }, [ischeced]);
+  // get profileuser
+  useEffect(() => {
+    const option = {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    fetch(`https://api-nodejs-todolist.herokuapp.com/user/me`, option)
+      .then((res) => res.json())
+      .then((data) => setprofile(data));
+  }, []);
+  //getimguser
+  useEffect(() => {
+    const option = {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    fetch(
+      `https://api-nodejs-todolist.herokuapp.com/user/${profile._id}/avatar`,
+      option
+    ).then((data) => setimg(data));
+  }, [profile]);
+
   return (
     <div className="container mt-100">
+      <span id="hello">Xin chào {profile.name} </span>
+      <span id="email">email: {profile.email}</span>
+      <div id="imguser">
+        <img id="img_user" src={timg.url} />
+        <button onClick={() => deleteimg()} id="deleimg">
+          Xóa ảnh
+        </button>
+      </div>
       <input
         className="inpt_job"
         value={job}
@@ -164,7 +216,6 @@ function App() {
         }}
       />
       <div id="blockprofilde">
-        <img src="" />
         <span></span>
         {<Updateprofile />}
         <button onClick={handlesiginout}>Đăng xuất</button>
@@ -182,7 +233,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {data.map((datam, index) => {
+          {pageforms.map((datam, index) => {
             return (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
@@ -196,6 +247,7 @@ function App() {
                   <input
                     type="checkbox"
                     onChange={() => setischeck(datam._id)}
+                    checked={usecheck}
                   />
                 </td>
               </tr>
@@ -203,6 +255,7 @@ function App() {
           })}
         </tbody>
       </table>
+      <Pagenumber compage={compage} totalpage={data.length} />
     </div>
   );
 }
