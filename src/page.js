@@ -22,8 +22,10 @@ function Page({ data, setinerface }) {
       .then((datas) => setinerface(datas.data));
   }, [data]);
   const numberpage = [];
-  for (let i = 1; i <= Math.ceil((data.length - 10) / 10); i++) {
-    numberpage.push(i);
+  if (data !== undefined) {
+    for (let i = 1; i <= Math.ceil((data.length - 10) / 10); i++) {
+      numberpage.push(i);
+    }
   }
   return (
     <nav>

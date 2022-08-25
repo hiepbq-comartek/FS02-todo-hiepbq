@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Updateprofile from "./update";
 import { PutTaskbyCompleted, deleteimg } from "./server/data";
 import Page from "./page";
+import Loading from "./Loading";
 
 const init = {
   job: "",
@@ -39,7 +40,7 @@ function App() {
   const [ischeced, setischeck] = useState(false);
   const [data, setData] = useState([]);
   const [interFace, setinterFace] = useState([]);
-
+  const [loading, setloading] = useState(false);
   //
   const navigate = useNavigate();
   // delete
@@ -111,9 +112,10 @@ function App() {
       },
       body: JSON.stringify(data),
     };
-    fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
-      .then((response) => response.json())
-      .then((data) => data);
+    fetch("https://api-nodejs-todolist.herokuapp.com/task", option).then(
+      (response) => response.json()
+    );
+    // .then((data) => setloading(!data.success));
   };
   const [state, dispatch] = useReducer(Reducer, init);
   const { job, jobs } = state;
@@ -150,6 +152,7 @@ function App() {
     };
     fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
       .then((res) => res.json())
+      .then((test) => console.log(test))
       .then((data) => setData(data.data));
   }, [data]);
   const sr = {
@@ -186,6 +189,7 @@ function App() {
   }, [profile]);
   return (
     <div className="container mt-100">
+      {loading && <Loading />}
       <span id="hello">Xin chào {profile.name} </span>
       <span id="email">email: {profile.email}</span>
       <div id="imguser">
@@ -204,9 +208,9 @@ function App() {
       <div id="blockprofilde">
         <span></span>
         {<Updateprofile />}
-        <button id="butsignout" onClick={handlesiginout}>
+        <a id="butsignout" onClick={handlesiginout}>
           Đăng xuất
-        </button>
+        </a>
       </div>
       <button id="butsub" onClick={() => handleadd(str)}>
         submit
@@ -221,23 +225,27 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {interFace.map((datam, index) => {
-            return (
-              <tr key={index}>
-                <th scope="row">{index + 1}</th>
-                <td>{datam.description}</td>
-                <td>{datam.updatedAt}</td>
-                <td>
-                  <button onClick={() => deletejob(datam._id)}>Delete</button>
-                  <input
-                    type="checkbox"
-                    onChange={() => setischeck(datam._id)}
-                    checked={usecheck}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+          {interFace !== undefined ? (
+            interFace.map((datam, index) => {
+              return (
+                <tr key={index}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{datam.description}</td>
+                  <td>{datam.updatedAt}</td>
+                  <td>
+                    <button
+                      id="deletetask"
+                      onClick={() => deletejob(datam._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <></>
+          )}
         </tbody>
       </table>
       <Page data={data} setinerface={setinterFace} />

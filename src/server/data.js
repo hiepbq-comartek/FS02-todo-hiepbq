@@ -16,9 +16,7 @@ export let uploadimg = (img, name) => {
     redirect: "follow",
   };
   fetch("https://api-nodejs-todolist.herokuapp.com/user/me/avatar", option)
-    .then((data) =>
-      data.success === true ? alert("sửa thành công") : alert("lỗi")
-    )
+    .then((data) => (data.success ? alert("sửa thành công") : alert("lỗi")))
     .catch((error) => console.log(error));
 };
 // putFrpfile oke
@@ -33,9 +31,7 @@ export let putFrofile = (data) => {
   };
   fetch("https://api-nodejs-todolist.herokuapp.com/user/me", option)
     .then((response) => response.json())
-    .then((data) =>
-      data.success === true ? alert("sửa thành công") : alert("lỗi")
-    );
+    .then((data) => (data.success ? alert("sửa thành công") : alert("lỗi")));
 };
 
 // put taskbyCompleted oke

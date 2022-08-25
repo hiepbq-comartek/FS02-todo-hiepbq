@@ -153,7 +153,31 @@ input#test {
 }
 #butsignout{
   height: 3.2rem;
+    font-size: 1.8rem;
     width: 10rem;
     background-color: #1890ff;
     color: #fff;
+    cursor: pointer;
+}
+span#email {
+  position: absolute;
+  top: 6rem;
+  font-size: 2rem;}
+  .container.mt-100 {
+    top: 2rem;
+    height: 95rem;
+    position: relative;
+    background: #1890ff;
+}
+#deletetask{
+
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 3px 26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 0.4rem;
 }
