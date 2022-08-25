@@ -3,24 +3,24 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 const apitodolist = "https://api-nodejs-todolist.herokuapp.com/user/login";
 
-export let getid = () => {
-  const option = {
-    method: "get",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  };
+// export let getid = () => {
+//   const option = {
+//     method: "get",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${localStorage.getItem("token")}`,
+//     },
+//   };
 
-  fetch("https://api-nodejs-todolist.herokuapp.com/user/me", option)
-    .then((response) => response.json())
-    .then((e) => {
-      getid(e.id);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-};
+//   fetch("https://api-nodejs-todolist.herokuapp.com/user/me", option)
+//     .then((response) => response.json())
+//     .then((e) => {
+//       getid(e.id);
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//     });
+// };
 
 function Login() {
   const [id, setid] = useState();
@@ -43,9 +43,6 @@ function Login() {
     function loginuser(callback) {
       fetch(apitodolist, option)
         .then((response) => response.json())
-        .then((e) => {
-          getid(e.id);
-        })
         .then((callback) => {
           localStorage.setItem("token", callback.token);
           navigate("/home");
@@ -82,11 +79,6 @@ function Login() {
               id="pwd"
               placeholder="Enter password"
             />
-          </div>
-          <div className="checkbox">
-            <label>
-              <input type="checkbox" /> Remember me
-            </label>
           </div>
           <button className="btn btn-default" onClick={signin}>
             Đăng Nhập

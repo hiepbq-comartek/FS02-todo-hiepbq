@@ -1,9 +1,6 @@
 // post img
-import { uploadimg } from "./data";
-import { useState } from "react";
+import { uploadimg } from "./server/data";
 function Imgtodolist() {
-  const fileField = document.querySelector('input[type="file"]');
-
   return (
     <input
       placeholder="thêm ảnh"

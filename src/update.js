@@ -1,6 +1,6 @@
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
-import { deleteuser, putFrofile } from "./data";
+import { deleteuser, putFrofile } from "./server/data";
 import Imgtodolist from "./updateimg";
 const Updateprofile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

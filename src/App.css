@@ -47,10 +47,12 @@ table{
   margin-top: 20rem;
   outline-style: none;
   font-size: 2rem;
+  border-radius: 10rem;
 }
 #butsub{
   font-size: 2rem;
   border: none;
+  border-radius: 10rem;
 
 }
 .inpt_jobs{
@@ -120,7 +122,7 @@ input#test {
   font-size: 3.6rem;
   position: absolute;
 }
-#email{
+#semail{
   font-size: 2.4rem;
   position: absolute;
   top: 50px
@@ -139,6 +141,8 @@ input#test {
   left: 50px;
   background: none;
   outline-style: none;
+  border-radius: 10rem;
+  font-weight: 500;
 }
 #pagination{
   z-index: 9999;
@@ -146,4 +150,10 @@ input#test {
 #testli{
   background-color: #000;
   z-index: 9999;
+}
+#butsignout{
+  height: 3.2rem;
+    width: 10rem;
+    background-color: #1890ff;
+    color: #fff;
 }

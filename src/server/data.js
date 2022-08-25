@@ -17,7 +17,7 @@ export let uploadimg = (img, name) => {
   };
   fetch("https://api-nodejs-todolist.herokuapp.com/user/me/avatar", option)
     .then((data) =>
-      data.success == true ? alert("sửa thành công") : alert("lỗi")
+      data.success === true ? alert("sửa thành công") : alert("lỗi")
     )
     .catch((error) => console.log(error));
 };
@@ -34,7 +34,7 @@ export let putFrofile = (data) => {
   fetch("https://api-nodejs-todolist.herokuapp.com/user/me", option)
     .then((response) => response.json())
     .then((data) =>
-      data.success == true ? alert("sửa thành công") : alert("lỗi")
+      data.success === true ? alert("sửa thành công") : alert("lỗi")
     );
 };
 

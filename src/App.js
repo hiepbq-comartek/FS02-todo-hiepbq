@@ -2,9 +2,8 @@ import "./App.css";
 import { useState, useReducer, useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Updateprofile from "./update";
-import { PutTaskbyCompleted, deleteimg } from "./data";
-import SkeletonImage from "antd/lib/skeleton/Image";
-import Pagenumber from "./pagenumber";
+import { PutTaskbyCompleted, deleteimg } from "./server/data";
+import Page from "./page";
 
 const init = {
   job: "",
@@ -37,18 +36,9 @@ function App() {
   const [timg, setimg] = useState({});
   const [usecheck, setusecheck] = useState(false);
   const [profile, setprofile] = useState({});
-  const [checkdisplay, setdisplay] = useState(false);
   const [ischeced, setischeck] = useState(false);
   const [data, setData] = useState([]);
-  //page
-  const [post, setpost] = useState();
-  const [loading, setloading] = useState(false);
-  const [currenpage, setcurrenpage] = useState(1);
-  const [compage, setcompage] = useState(10);
-  //
-  const indexcurrenfrom = currenpage * compage;
-  const firsepage = indexcurrenfrom - compage;
-  const pageforms = data.splice(firsepage, indexcurrenfrom);
+  const [interFace, setinterFace] = useState([]);
 
   //
   const navigate = useNavigate();
@@ -125,9 +115,6 @@ function App() {
       .then((response) => response.json())
       .then((data) => data);
   };
-  const displayon = () => {};
-  //
-
   const [state, dispatch] = useReducer(Reducer, init);
   const { job, jobs } = state;
   //
@@ -197,7 +184,6 @@ function App() {
       option
     ).then((data) => setimg(data));
   }, [profile]);
-
   return (
     <div className="container mt-100">
       <span id="hello">Xin chào {profile.name} </span>
@@ -218,7 +204,9 @@ function App() {
       <div id="blockprofilde">
         <span></span>
         {<Updateprofile />}
-        <button onClick={handlesiginout}>Đăng xuất</button>
+        <button id="butsignout" onClick={handlesiginout}>
+          Đăng xuất
+        </button>
       </div>
       <button id="butsub" onClick={() => handleadd(str)}>
         submit
@@ -233,16 +221,13 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {pageforms.map((datam, index) => {
+          {interFace.map((datam, index) => {
             return (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{datam.description}</td>
                 <td>{datam.updatedAt}</td>
                 <td>
-                  <button onClick={() => setdisplay(!checkdisplay)}>
-                    Update
-                  </button>
                   <button onClick={() => deletejob(datam._id)}>Delete</button>
                   <input
                     type="checkbox"
@@ -255,7 +240,7 @@ function App() {
           })}
         </tbody>
       </table>
-      <Pagenumber compage={compage} totalpage={data.length} />
+      <Page data={data} setinerface={setinterFace} />
     </div>
   );
 }

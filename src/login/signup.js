@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function Siginup() {
   const [email, setemail] = useState("");
   const [name, setname] = useState("");
-  const [age, setage] = useState("");
+  const [age, setage] = useState(0);
   const [password, setpassword] = useState("");
   const apitodolitsnewuser =
     "https://api-nodejs-todolist.herokuapp.com/user/register";
@@ -11,7 +11,7 @@ function Siginup() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const input = { name: name, email: email, password: password, age: age };
+    const input = { name: name, age: age, email: email, password: password };
     const option = {
       method: "POST",
       headers: {
@@ -21,9 +21,7 @@ function Siginup() {
     };
     fetch(apitodolitsnewuser, option)
       .then((res) => res.json())
-      .then((data) =>
-        typeof data.age == Number ? navigate("/") : navigate("/register")
-      )
+      .then(() => navigate("/home"))
 
       .catch((error) => {
         console.error("Error:", error);
