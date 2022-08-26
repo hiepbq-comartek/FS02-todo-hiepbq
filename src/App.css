@@ -53,6 +53,7 @@ table{
   font-size: 2rem;
   border: none;
   border-radius: 10rem;
+  width: 10rem;
 
 }
 .inpt_jobs{
@@ -180,4 +181,5 @@ span#email {
     display: inline-block;
     font-size: 16px;
     border-radius: 0.4rem;
+    margin: 0 1rem;
 }

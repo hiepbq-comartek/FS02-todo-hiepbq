@@ -2,7 +2,6 @@
 const link = "https://api-nodejs-todolist.herokuapp.com";
 // upload img oke
 export let uploadimg = (img, name) => {
-  console.log({ img, name });
   const formData = new FormData();
 
   formData.append("avatar", img, name);
@@ -16,7 +15,8 @@ export let uploadimg = (img, name) => {
     redirect: "follow",
   };
   fetch("https://api-nodejs-todolist.herokuapp.com/user/me/avatar", option)
-    .then((data) => (data.success ? alert("sửa thành công") : alert("lỗi")))
+  .then((data)=>console.log(data))
+    .then((data) => (data.success ? alert("Thêm ảnh thành công") : alert("lỗi")))
     .catch((error) => console.log(error));
 };
 // putFrpfile oke
@@ -44,7 +44,7 @@ export let PutTaskbyCompleted = (data, id, setusecheck) => {
     },
     body: JSON.stringify(data),
   };
-  fetch(`https://api-nodejs-todolist.herokuapp.com/task/${id}`, option)
+  fetch(`https://api-nodejs-todolist.herokuapp.com/task/true`, option)
     .then((res) => res.json())
     .then((data) => setusecheck(data.completed))
     .then((data) => console.log(data));

@@ -25,11 +25,7 @@ const Updateprofile = () => {
         title="Thay đổi thông tin"
         visible={isModalVisible}
         onCancel={handleCancel}
-      >
-        <div>
-          <span>Mật Khẩu</span>
-          <input className="inpt_jobss" />
-        </div>
+      >             
         <div>
           <span>Age</span>
           <input

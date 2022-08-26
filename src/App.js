@@ -2,9 +2,10 @@ import "./App.css";
 import { useState, useReducer, useEffect, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Updateprofile from "./update";
-import { PutTaskbyCompleted, deleteimg } from "./server/data";
+import {  deleteimg } from "./server/data";
 import Page from "./page";
 import Loading from "./Loading";
+import Putmethort from "./putmethotbyid  "
 
 const init = {
   job: "",
@@ -12,7 +13,7 @@ const init = {
 };
 const Set = "Set";
 const Add = "Add";
-const Deletes = "Deletes";
+const Deletes = "Deletes"; 
 const SetJob = (payload) => {
   return {
     type: Set,
@@ -35,16 +36,16 @@ const deleteJob = (payload) => {
 // data
 function App() {
   const [timg, setimg] = useState({});
-  const [usecheck, setusecheck] = useState(false);
   const [profile, setprofile] = useState({});
-  const [ischeced, setischeck] = useState(false);
   const [data, setData] = useState([]);
+  const [idcheck,setidcheck] = useState(false)
   const [interFace, setinterFace] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   //
   const navigate = useNavigate();
   // delete
   const deletejob = (e) => {
+    setloading(true)
     const option = {
       method: "delete",
       headers: {
@@ -54,9 +55,8 @@ function App() {
     };
     fetch(`https://api-nodejs-todolist.herokuapp.com/task/${e} `, option)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setloading(!data.success));
   };
-  // get img
   // delete img
   useEffect(() => {
     const option = {
@@ -71,7 +71,7 @@ function App() {
       option
     )
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) =>data);
   }, []);
   const Reducer = (state, action) => {
     let newSate;
@@ -102,8 +102,9 @@ function App() {
     return newSate;
   };
   // post api
-  const handleadd = (data, callback) => {
+  const handleadd = (data) => {
     dispatch(AddJob(job));
+    setloading(true)
     const option = {
       method: "POST",
       headers: {
@@ -112,13 +113,15 @@ function App() {
       },
       body: JSON.stringify(data),
     };
-    fetch("https://api-nodejs-todolist.herokuapp.com/task", option).then(
+    fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
+    .then(
       (response) => response.json()
-    );
-    // .then((data) => setloading(!data.success));
+    )
+    .then((data) => setloading(!data.success))
+    .then((data)=>data)
   };
   const [state, dispatch] = useReducer(Reducer, init);
-  const { job, jobs } = state;
+  const { job, } = state;
   //
 
   function handlesiginout() {
@@ -152,16 +155,15 @@ function App() {
     };
     fetch("https://api-nodejs-todolist.herokuapp.com/task", option)
       .then((res) => res.json())
-      .then((test) => console.log(test))
-      .then((data) => setData(data.data));
+      // .then((data)=> )
+      .then((data) =>{data.data ? setloading(false) : setloading(true);return(setData(data.data))}  )
+      .then((test) => test)
   }, [data]);
+
   const sr = {
     completed: true,
   };
 
-  useEffect(() => {
-    PutTaskbyCompleted(sr, ischeced, setusecheck);
-  }, [ischeced]);
   // get profileuser
   useEffect(() => {
     const option = {
@@ -187,6 +189,7 @@ function App() {
       option
     ).then((data) => setimg(data));
   }, [profile]);
+  console.log(idcheck)
   return (
     <div className="container mt-100">
       {loading && <Loading />}
@@ -233,12 +236,20 @@ function App() {
                   <td>{datam.description}</td>
                   <td>{datam.updatedAt}</td>
                   <td>
+                  <button
+                      id="deletetask"
+                      onClick={()=>{setidcheck(datam._id)}}
+                    >
+                      Action
+                    </button>
                     <button
                       id="deletetask"
                       onClick={() => deletejob(datam._id)}
                     >
                       Delete
                     </button>
+                    < Putmethort setidcheck={setidcheck}/>
+                    
                   </td>
                 </tr>
               );
@@ -248,7 +259,7 @@ function App() {
           )}
         </tbody>
       </table>
-      <Page data={data} setinerface={setinterFace} />
+      <Page data={data} setinerface={setinterFace} load={setloading} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from "react";
 
-function Page({ data, setinerface }) {
+function Page({ data, setinerface,load }) {
   const [pagenum, setpagenum] = useState(0);
   const [skip, setskip] = useState(1);
 
@@ -23,10 +23,11 @@ function Page({ data, setinerface }) {
   }, [data]);
   const numberpage = [];
   if (data !== undefined) {
-    for (let i = 1; i <= Math.ceil((data.length - 10) / 10); i++) {
+    for (let i = 1; i <= Math.ceil((data.length -10) / 10); i++) {
       numberpage.push(i);
     }
   }
+  // console.log(numberpage)
   return (
     <nav>
       <ul className="pagination">
@@ -35,7 +36,6 @@ function Page({ data, setinerface }) {
             <a
               onClick={() => {
                 setpagenum(num);
-                console.log(pagenum);
               }}
               className="page-link"
             >
@@ -47,4 +47,4 @@ function Page({ data, setinerface }) {
     </nav>
   );
 }
-export default Page;
+export default memo(Page);
