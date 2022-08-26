@@ -44,7 +44,7 @@ export let PutTaskbyCompleted = (data, id, setusecheck) => {
     },
     body: JSON.stringify(data),
   };
-  fetch(`https://api-nodejs-todolist.herokuapp.com/task/true`, option)
+  fetch(`https://api-nodejs-todolist.herokuapp.com/task/${id}`, option)
     .then((res) => res.json())
     .then((data) => setusecheck(data.completed))
     .then((data) => console.log(data));

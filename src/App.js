@@ -5,7 +5,7 @@ import Updateprofile from "./update";
 import {  deleteimg } from "./server/data";
 import Page from "./page";
 import Loading from "./Loading";
-import Putmethort from "./putmethotbyid  "
+import Putmethort from "./putmethotbyid"
 
 const init = {
   job: "",
@@ -248,8 +248,7 @@ function App() {
                     >
                       Delete
                     </button>
-                    < Putmethort setidcheck={setidcheck}/>
-                    
+                    <Putmethort setidcheck={setidcheck} idcheck={idcheck} id={datam._id}/>
                   </td>
                 </tr>
               );
